@@ -20,7 +20,7 @@ export function ProductListView({
   viewMode,
 }: ProductListViewProps) {
   return (
-    <div className="container py-4">
+    <div className="w-100">
       {/* Banner giải thích kiến trúc */}
       <CleanArchExplainer />
 

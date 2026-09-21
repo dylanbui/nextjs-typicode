@@ -16,10 +16,9 @@ export default auth((req) => {
   const { pathname } = req.nextUrl;
   const isLoggedIn = !!req.auth;
 
-  const isProtected =
-    pathname.startsWith('/dashboard') ||
-    pathname.startsWith('/users');
   const isLoginPage = pathname === '/login' || pathname.startsWith('/login/');
+  const isPublicApi = pathname.startsWith('/api/auth');
+  const isProtected = !isLoginPage && !isPublicApi;
 
   // 1. Chuyển hướng nếu đã đăng nhập mà vào lại trang /login
   if (isLoginPage && isLoggedIn) {

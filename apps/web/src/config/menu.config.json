@@ -1,0 +1,81 @@
+[
+  {
+    "id": "dashboard",
+    "title": "Bảng Điều Khiển",
+    "icon": "bi-speedometer2",
+    "badge": "Chính",
+    "badgeColor": "primary",
+    "children": [
+      {
+        "id": "dashboard-overview",
+        "title": "Tổng quan thống kê",
+        "path": "/dashboard",
+        "icon": "bi-grid-1x2-fill"
+      }
+    ]
+  },
+  {
+    "id": "products",
+    "title": "Quản Lý Sản Phẩm",
+    "icon": "bi-box-seam",
+    "children": [
+      {
+        "id": "products-list",
+        "title": "Tất cả sản phẩm",
+        "path": "/products",
+        "icon": "bi-list-ul"
+      },
+      {
+        "id": "products-filter-shoes",
+        "title": "Danh mục Shoes",
+        "path": "/products?category=Shoes",
+        "icon": "bi-tags"
+      },
+      {
+        "id": "products-filter-electronics",
+        "title": "Danh mục Electronics",
+        "path": "/products?category=Electronics",
+        "icon": "bi-laptop"
+      }
+    ]
+  },
+  {
+    "id": "posts",
+    "title": "Quản Lý Bài Viết",
+    "icon": "bi-journal-richtext",
+    "children": [
+      {
+        "id": "posts-list",
+        "title": "Danh sách bài viết",
+        "path": "/posts",
+        "icon": "bi-card-text"
+      }
+    ]
+  },
+  {
+    "id": "users",
+    "title": "Quản Lý Người Dùng",
+    "icon": "bi-people",
+    "children": [
+      {
+        "id": "users-list",
+        "title": "Danh sách người dùng",
+        "path": "/users",
+        "icon": "bi-person-lines-fill"
+      }
+    ]
+  },
+  {
+    "id": "architecture",
+    "title": "Kiến Trúc & Tài Liệu",
+    "icon": "bi-diagram-3",
+    "children": [
+      {
+        "id": "architecture-overview",
+        "title": "Clean Architecture 4 Lớp",
+        "path": "/architecture",
+        "icon": "bi-layers"
+      }
+    ]
+  }
+]

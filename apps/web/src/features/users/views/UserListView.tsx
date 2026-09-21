@@ -59,7 +59,7 @@ export function UserListView({
   };
 
   return (
-    <div className="container-fluid py-4 px-md-5">
+    <div className="w-100">
       {/* 1. Header Bar */}
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
         <div>

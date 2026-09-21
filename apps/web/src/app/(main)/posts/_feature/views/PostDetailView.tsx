@@ -7,7 +7,7 @@ interface PostDetailViewProps {
 
 export function PostDetailView({ post }: PostDetailViewProps) {
   return (
-    <div className="container py-4" style={{ maxWidth: '800px' }}>
+    <div className="w-100">
       {/* Breadcrumb */}
       <nav aria-label="breadcrumb" className="mb-4">
         <ol className="breadcrumb">

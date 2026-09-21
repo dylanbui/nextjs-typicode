@@ -69,7 +69,7 @@ export function UserFormView({ mode, initialData }: UserFormViewProps) {
   };
 
   return (
-    <div className="container py-4">
+    <div className="w-100">
       {/* Breadcrumb */}
       <div className="d-flex align-items-center gap-2 mb-4">
         <Link href="/dashboard" className="text-decoration-none text-muted small">

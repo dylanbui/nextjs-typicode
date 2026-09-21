@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { AppShell } from '@/components/AppShell.client';
 
 export const metadata: Metadata = {
   title: 'TypiCode - Clean Architecture with Next.js & TypeScript',
@@ -14,9 +13,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi">
-      <body>
-        <AppShell>{children}</AppShell>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
+

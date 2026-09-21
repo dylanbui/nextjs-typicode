@@ -49,10 +49,9 @@ export const authConfig: NextAuthConfig = {
       const isLoggedIn = !!auth?.user;
       const { pathname } = nextUrl;
 
-      const isProtected =
-        pathname.startsWith('/dashboard') ||
-        pathname.startsWith('/users');
       const isLoginPage = pathname === '/login' || pathname.startsWith('/login/');
+      const isPublicApi = pathname.startsWith('/api/auth');
+      const isProtected = !isLoginPage && !isPublicApi;
 
       // 1. Chuyển hướng về /dashboard nếu đã đăng nhập mà cố vào /login
       if (isLoginPage && isLoggedIn) {

@@ -9,7 +9,7 @@ interface PostListViewProps {
 
 export function PostListView({ posts, search = '', tag = '' }: PostListViewProps) {
   return (
-    <div className="container py-4">
+    <div className="w-100">
       {/* Breadcrumb & Title */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
         <div>

@@ -16,7 +16,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
   const mainImage = images[0];
 
   return (
-    <div className="container py-4">
+    <div className="w-100">
       {/* Breadcrumb Navigation */}
       <nav aria-label="breadcrumb" className="mb-4">
         <ol className="breadcrumb small">

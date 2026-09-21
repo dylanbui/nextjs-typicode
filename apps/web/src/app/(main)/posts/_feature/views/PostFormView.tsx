@@ -11,7 +11,7 @@ export function PostFormView({ mode, post }: PostFormViewProps) {
   const title = isEdit ? `Chỉnh Sửa Bài Viết #${post?.id}` : 'Tạo Bài Viết Mới';
 
   return (
-    <div className="container py-4" style={{ maxWidth: '720px' }}>
+    <div className="w-100">
       {/* Breadcrumb */}
       <nav aria-label="breadcrumb" className="mb-4">
         <ol className="breadcrumb">

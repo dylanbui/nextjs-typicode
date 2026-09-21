@@ -90,7 +90,7 @@ export function ProductFormView({
   };
 
   return (
-    <div className="container py-4">
+    <div className="w-100">
       {/* Breadcrumb */}
       <nav aria-label="breadcrumb" className="mb-4">
         <ol className="breadcrumb small">

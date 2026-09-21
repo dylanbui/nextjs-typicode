@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthStore } from '@/app/login/_feature/stores/auth.store.client';
+import { useAuthStore } from '@/app/(auth)/login/_feature/stores/auth.store.client';
 
 interface SessionSizeBadgeProps {
   initialSizeBytes?: number;
