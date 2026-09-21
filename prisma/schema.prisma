@@ -1,0 +1,102 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// -----------------------------------------------------------------------------
+// 1. User Model (Tài khoản người dùng trung tâm)
+// -----------------------------------------------------------------------------
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String?         @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?         // Hash mật khẩu bcrypt dùng cho Credentials login
+  role          String          @default("customer") // admin, customer, staff...
+  status        String          @default("active")   // active, locked, pending
+  metadata      String?         // JSON string chứa theme, custom fields, profile settings
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  activityLogs  UserActivityLog[]
+
+  @@index([email])
+  @@index([role])
+}
+
+// -----------------------------------------------------------------------------
+// 2. Account Model (Hỗ trợ Account Linking: Google, Facebook, Credentials...)
+// -----------------------------------------------------------------------------
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String  // "google", "facebook", "credentials", "github"...
+  providerAccountId String  // Unique ID trả về từ phía Provider
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+// -----------------------------------------------------------------------------
+// 3. Session Model (Stateful Session / Database Token lưu trữ)
+// -----------------------------------------------------------------------------
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// -----------------------------------------------------------------------------
+// 4. Verification Token Model (Magic Link, Email verification, Reset Password)
+// -----------------------------------------------------------------------------
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// -----------------------------------------------------------------------------
+// 5. User Activity Log Model (Nhật ký kiểm toán bảo mật & hoạt động)
+// -----------------------------------------------------------------------------
+model UserActivityLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String   // LOGIN, LOGOUT, REGISTER, LINK_ACCOUNT, UPDATE_PROFILE...
+  details   String?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+}

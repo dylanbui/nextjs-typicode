@@ -1,0 +1,26 @@
+{
+  "name": "typi-code-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=web",
+    "dev:log": "mkdir -p logs && npm run dev --workspace=web | tee logs/server.log",
+    "server": "./server.sh",
+    "server:stop": "./server.sh stop",
+    "server:restart": "./server.sh restart",
+    "build": "npm run build --workspace=web",
+    "start": "npm run start --workspace=web",
+    "typecheck": "npm run typecheck --workspace=web"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0"
+  }
+}
