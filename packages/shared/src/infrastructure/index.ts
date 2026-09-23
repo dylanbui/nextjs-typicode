@@ -10,7 +10,6 @@ export * from '../domain/repositories/category.repository';
 export * from '../domain/repositories/auth.repository';
 export * from '../domain/repositories/user.repository';
 export * from './session';
-export * from './router/RouteDispatcher';
 export * from './router/ActionDispatcher';
 export * from './logger';
 

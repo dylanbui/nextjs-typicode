@@ -17,3 +17,7 @@ export async function userDetailAction(id: number): Promise<React.ReactNode> {
     notFound();
   }
 }
+
+// Aliases cho ActionDispatcher
+export { userDetailAction as viewDetailAction, userDetailAction as detailAction };
+export default userDetailAction;

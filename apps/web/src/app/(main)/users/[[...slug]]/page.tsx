@@ -1,11 +1,5 @@
-import { notFound } from 'next/navigation';
-import {
-  parseUserRoute,
-  userListAction,
-  userAddAction,
-  userDetailAction,
-  userUpdateAction,
-} from '@/features/users';
+import * as userActions from '@/app/(main)/users/_feature';
+import { dispatchAction } from '@repo/shared';
 
 interface PageProps {
   params: Promise<{ slug?: string[] }>;
@@ -20,30 +14,35 @@ export const metadata = {
 };
 
 /**
- * 🎼 MASTER DISPATCHER: Điều phối Catch-All cho User Management (/users/[[...slug]])
+ * 🎼 MASTER DISPATCHER: Tự động điều phối toàn bộ URL Users qua ActionDispatcher
+ * 
+ * URL Mapping:
+ * - /users                 -> Action: indexAction / listAction / userListAction
+ * - /users/add             -> Action: addAction / userAddAction
+ * - /users/new             -> Action: newAction / addAction (Alias)
+ * - /users/[id]            -> Action: viewDetailAction / detailAction (Fallback cho ID)
+ * - /users/update/[id]     -> Action: updateAction / editAction / userUpdateAction
+ * - /users/edit/[id]       -> Action: editAction / updateAction
  */
 export default async function UserMasterPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const rawSearchParams = await searchParams;
 
-  // 1. Phân tích route slug
-  const route = parseUserRoute(slug);
-
-  // 2. Dispatcher gọi Action tương ứng
-  switch (route.type) {
-    case 'LIST':
-      return await userListAction(rawSearchParams);
-
-    case 'ADD':
-      return await userAddAction();
-
-    case 'DETAIL':
-      return await userDetailAction(route.id);
-
-    case 'UPDATE':
-      return await userUpdateAction(route.id);
-
-    default:
-      notFound();
-  }
+  return await dispatchAction(
+    userActions,
+    slug,
+    rawSearchParams,
+    {
+      moduleName: 'Users',
+      defaultActionNames: ['indexAction', 'listAction', 'userListAction', 'index', 'list'],
+      idFallbackActionNames: ['viewDetailAction', 'detailAction', 'userDetailAction', 'detail'],
+      before: (ctx) => {
+        console.log(`[Users Dispatcher] 🚀 Running action: "${ctx.actionName}" with slug:`, ctx.slug);
+      },
+      after: (_result, ctx) => {
+        const duration = Date.now() - ctx.startTime;
+        console.log(`[Users Dispatcher] ✅ Completed action: "${ctx.actionName}" in ${duration}ms`);
+      },
+    }
+  );
 }

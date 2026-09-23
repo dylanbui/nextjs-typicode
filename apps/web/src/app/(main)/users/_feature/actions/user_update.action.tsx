@@ -17,3 +17,7 @@ export async function userUpdateAction(id: number): Promise<React.ReactNode> {
     notFound();
   }
 }
+
+// Aliases cho ActionDispatcher
+export { userUpdateAction as updateAction, userUpdateAction as editAction };
+export default userUpdateAction;

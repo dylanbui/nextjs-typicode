@@ -2,14 +2,32 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import type { SessionData } from '@repo/shared';
 import { useAuthStore } from '@/app/(auth)/login/_feature/stores/auth.store.client';
 import { logoutAction } from '@/app/(auth)/login/_feature/actions/logout.server';
 import { SessionTimer } from '@/app/(main)/dashboard/_feature/components/SessionTimer.client';
 import { SessionSizeBadge } from '@/app/(main)/dashboard/_feature/components/SessionSizeBadge.client';
 import { cleanImageUrl } from '@/lib/image';
 
-export function UserDropdownPanel() {
-  const user = useAuthStore((state) => state.user);
+interface UserDropdownPanelProps {
+  initialUser?: SessionData | null;
+}
+
+export function UserDropdownPanel({ initialUser }: UserDropdownPanelProps) {
+  const storeUser = useAuthStore((state) => state.user);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+  const setUser = useAuthStore((state) => state.setUser);
+
+  // 🛡️ Ưu tiên storeUser nếu có, fallback sang initialUser từ SSR để triệt tiêu chớp nháy
+  const user = storeUser || initialUser || null;
+
+  // Đồng bộ initialUser từ SSR vào Zustand store ngay lần đầu render
+  useEffect(() => {
+    if (initialUser && !storeUser) {
+      setUser(initialUser);
+    }
+  }, [initialUser, storeUser, setUser]);
+
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -27,6 +45,14 @@ export function UserDropdownPanel() {
   }, []);
 
   if (!user) {
+    if (!isInitialized && initialUser === undefined) {
+      return (
+        <div className="placeholder-glow">
+          <div className="placeholder rounded-pill" style={{ width: 140, height: 38 }} />
+        </div>
+      );
+    }
+
     return (
       <Link href="/login" className="btn btn-primary btn-sm rounded-pill px-4 shadow-sm">
         <i className="bi bi-box-arrow-in-right me-1"></i> Đăng Nhập

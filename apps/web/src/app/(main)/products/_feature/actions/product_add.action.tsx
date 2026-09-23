@@ -16,5 +16,9 @@ export async function productAddAction() {
   );
 }
 
-// Alias hỗ trợ cả productCreateAction
+// Aliases cho ActionDispatcher
 export const productCreateAction = productAddAction;
+export const addAction = productAddAction;
+export const createAction = productAddAction;
+export const newAction = productAddAction;
+export default productAddAction;

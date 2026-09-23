@@ -1,22 +1,15 @@
-'use client';
-
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { useAuthStore } from '@/app/(auth)/login/_feature/stores/auth.store.client';
-import { getCurrentSessionAction } from '@/app/(auth)/login/_feature/actions/session.server';
+import { getCurrentUser } from '@/lib/session.server';
 import { UserDropdownPanel } from './UserDropdownPanel.client';
 
-export default function Navbar() {
-  const setUser = useAuthStore((state) => state.setUser);
-  const isInitialized = useAuthStore((state) => state.isInitialized);
-
-  useEffect(() => {
-    if (!isInitialized) {
-      getCurrentSessionAction().then((session) => {
-        setUser(session);
-      });
-    }
-  }, [isInitialized, setUser]);
+/**
+ * 🏛️ NAVBAR COMPONENT (Server Component)
+ * - Nạp thông tin session người dùng trực tiếp trên Server (0ms FOUC).
+ * - Pre-render UserDropdownPanel ngay trong HTML trả về, triệt tiêu hiện tượng chớp nút "Đăng Nhập".
+ */
+export default async function Navbar() {
+  const user = await getCurrentUser();
 
   return (
     <header className="sticky-top bg-white border-bottom shadow-sm z-3">
@@ -39,10 +32,9 @@ export default function Navbar() {
 
         {/* RIGHT: User Dropdown Panel */}
         <div className="ms-auto d-flex align-items-center gap-2">
-          <UserDropdownPanel />
+          <UserDropdownPanel initialUser={user} />
         </div>
       </nav>
     </header>
   );
 }
-

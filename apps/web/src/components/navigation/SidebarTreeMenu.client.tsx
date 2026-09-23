@@ -3,15 +3,16 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import menuConfig from '@/config/menu.config.json';
-import { MenuModule, isActionActive, getActiveModuleIds } from '@/config/menu.types';
+import { MenuModule, isActionActive, getActiveModuleIds } from './menu.types';
 
-function TreeMenuContent() {
+interface SidebarTreeMenuProps {
+  modules?: MenuModule[];
+}
+
+function TreeMenuContent({ modules = [] }: { modules: MenuModule[] }) {
   const pathname = usePathname() || '';
   const searchParams = useSearchParams();
   const searchParamsString = searchParams?.toString();
-
-  const modules = menuConfig as MenuModule[];
 
   // Danh sách các module đang được mở rộng (expanded)
   const [expandedIds, setExpandedIds] = useState<string[]>(() => {
@@ -48,7 +49,7 @@ function TreeMenuContent() {
               <i className="bi bi-diagram-3-fill fs-6"></i>
             </div>
             <span className="fw-bold text-dark small text-uppercase tracking-wider">
-              Danh Mục Phân Hệ
+              Danh Mục
             </span>
           </div>
           <span className="badge bg-light text-secondary border small">{modules.length} modules</span>
@@ -68,11 +69,10 @@ function TreeMenuContent() {
                 <button
                   type="button"
                   onClick={() => toggleModule(module.id)}
-                  className={`btn w-100 d-flex align-items-center justify-content-between px-3 py-2 text-start rounded-3 border-0 transition ${
-                    isModuleActive
+                  className={`btn w-100 d-flex align-items-center justify-content-between px-3 py-2 text-start rounded-3 border-0 transition ${isModuleActive
                       ? 'bg-light text-primary fw-semibold'
                       : 'text-dark hover-bg-light fw-medium'
-                  }`}
+                    }`}
                   style={{
                     backgroundColor: isModuleActive ? '#f0f7ff' : 'transparent',
                     fontSize: '0.88rem',
@@ -82,9 +82,8 @@ function TreeMenuContent() {
                   <div className="d-flex align-items-center gap-2 text-truncate">
                     {module.icon && (
                       <i
-                        className={`bi ${module.icon} fs-6 ${
-                          isModuleActive ? 'text-primary' : 'text-secondary'
-                        }`}
+                        className={`bi ${module.icon} fs-6 ${isModuleActive ? 'text-primary' : 'text-secondary'
+                          }`}
                       ></i>
                     )}
                     <span className="text-truncate">{module.title}</span>
@@ -93,9 +92,8 @@ function TreeMenuContent() {
                   <div className="d-flex align-items-center gap-1 ms-2">
                     {module.badge && (
                       <span
-                        className={`badge rounded-pill bg-${module.badgeColor || 'primary'}-subtle text-${
-                          module.badgeColor || 'primary'
-                        } small`}
+                        className={`badge rounded-pill bg-${module.badgeColor || 'primary'}-subtle text-${module.badgeColor || 'primary'
+                          } small`}
                         style={{ fontSize: '0.65rem' }}
                       >
                         {module.badge}
@@ -130,11 +128,10 @@ function TreeMenuContent() {
                         <Link
                           key={action.id}
                           href={action.path}
-                          className={`d-flex align-items-center justify-content-between px-2 py-1-5 rounded-2 text-decoration-none transition ${
-                            active
+                          className={`d-flex align-items-center justify-content-between px-2 py-1-5 rounded-2 text-decoration-none transition ${active
                               ? 'bg-primary text-white fw-bold shadow-sm'
                               : 'text-secondary hover-bg-light hover-text-dark fw-normal'
-                          }`}
+                            }`}
                           style={{
                             fontSize: '0.82rem',
                             paddingTop: '6px',
@@ -143,9 +140,8 @@ function TreeMenuContent() {
                         >
                           <div className="d-flex align-items-center gap-2 text-truncate">
                             <i
-                              className={`bi ${
-                                action.icon || (active ? 'bi-circle-fill' : 'bi-circle')
-                              } ${active ? 'text-white' : 'text-muted'}`}
+                              className={`bi ${action.icon || (active ? 'bi-circle-fill' : 'bi-circle')
+                                } ${active ? 'text-white' : 'text-muted'}`}
                               style={{ fontSize: action.icon ? '0.85rem' : '0.45rem' }}
                             ></i>
                             <span className="text-truncate">{action.title}</span>
@@ -153,13 +149,11 @@ function TreeMenuContent() {
 
                           {action.badge && (
                             <span
-                              className={`badge rounded-pill small ms-1 ${
-                                active
+                              className={`badge rounded-pill small ms-1 ${active
                                   ? 'bg-white text-primary'
-                                  : `bg-${action.badgeColor || 'secondary'}-subtle text-${
-                                      action.badgeColor || 'secondary'
-                                    }`
-                              }`}
+                                  : `bg-${action.badgeColor || 'secondary'}-subtle text-${action.badgeColor || 'secondary'
+                                  }`
+                                }`}
                               style={{ fontSize: '0.65rem' }}
                             >
                               {action.badge}
@@ -205,10 +199,11 @@ function SidebarTreeMenuSkeleton() {
   );
 }
 
-export function SidebarTreeMenu() {
+export function SidebarTreeMenu({ modules = [] }: SidebarTreeMenuProps) {
   return (
     <Suspense fallback={<SidebarTreeMenuSkeleton />}>
-      <TreeMenuContent />
+      <TreeMenuContent modules={modules} />
     </Suspense>
   );
 }
+

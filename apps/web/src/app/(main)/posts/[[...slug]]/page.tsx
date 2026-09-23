@@ -1,4 +1,4 @@
-import * as postActions from '../_feature';
+import * as postActions from '@/app/(main)/posts/_feature';
 import { dispatchAction } from '@repo/shared';
 
 interface PageProps {

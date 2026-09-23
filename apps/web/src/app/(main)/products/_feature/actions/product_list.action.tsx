@@ -43,3 +43,7 @@ export async function productListAction(
     />
   );
 }
+
+// Aliases cho ActionDispatcher
+export { productListAction as indexAction, productListAction as listAction };
+export default productListAction;

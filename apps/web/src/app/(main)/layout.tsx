@@ -3,7 +3,7 @@ import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { SidebarTreeMenu } from '@/components/SidebarTreeMenu.client';
+import { SidebarTreeMenu, getAllMenus } from '@/components/navigation';
 
 /**
  * 🏛️ MAIN GROUP LAYOUT: Layout chuẩn cho toàn bộ phân hệ nghiệp vụ
@@ -24,6 +24,9 @@ export default async function MainGroupLayout({
     redirect('/login');
   }
 
+  // 🎼 Lấy danh sách menu tổng hợp từ các module theo thứ tự `order`
+  const menuModules = getAllMenus();
+
   return (
     <div className="d-flex flex-column min-vh-100 bg-subtle-custom">
       <Navbar />
@@ -32,7 +35,7 @@ export default async function MainGroupLayout({
           <div className="row g-4">
             {/* CỘT TRÁI: ~20% Tree Menu Sidebar */}
             <div className="col-12 col-lg-3 col-xl-2">
-              <SidebarTreeMenu />
+              <SidebarTreeMenu modules={menuModules} />
             </div>
 
             {/* CỘT PHẢI: ~80% Nội dung trang hiện tại */}

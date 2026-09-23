@@ -1,3 +1,5 @@
+export type UserRole = 'admin' | 'manager' | 'customer' | 'user' | string;
+
 export interface MenuAction {
   id: string;
   title: string;
@@ -5,14 +7,22 @@ export interface MenuAction {
   icon?: string;
   badge?: string;
   badgeColor?: string;
+  /** Danh sách các role được phép truy cập link này (nếu để trống = cho phép tất cả) */
+  roles?: UserRole[];
+  /** Ẩn link này khỏi sidebar menu nhưng vẫn hợp lệ cho routing nội bộ */
+  hideInMenu?: boolean;
 }
 
 export interface MenuModule {
   id: string;
   title: string;
+  /** Thứ tự sắp xếp hiển thị trên sidebar (vd: 10, 20, 30...) */
+  order: number;
   icon?: string;
   badge?: string;
   badgeColor?: string;
+  /** Danh sách các role được phép truy cập module này */
+  roles?: UserRole[];
   children: MenuAction[];
 }
 

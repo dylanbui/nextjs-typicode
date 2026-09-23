@@ -41,3 +41,7 @@ export async function productUpdateAction(id: number) {
     notFound();
   }
 }
+
+// Aliases cho ActionDispatcher
+export { productUpdateAction as updateAction, productUpdateAction as editAction };
+export default productUpdateAction;

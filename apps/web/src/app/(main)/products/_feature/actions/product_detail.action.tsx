@@ -16,3 +16,7 @@ export async function productDetailAction(id: number) {
     notFound();
   }
 }
+
+// Aliases cho ActionDispatcher
+export { productDetailAction as viewDetailAction, productDetailAction as detailAction };
+export default productDetailAction;

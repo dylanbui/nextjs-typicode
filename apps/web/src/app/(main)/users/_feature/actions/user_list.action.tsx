@@ -1,5 +1,4 @@
 import React from 'react';
-import { notFound } from 'next/navigation';
 import { userRepository, UserRole } from '@repo/shared';
 import { UserListView } from '../views/UserListView';
 import { UserFilterSchema } from '../schemas/user.schema';
@@ -35,3 +34,7 @@ export async function userListAction(
     />
   );
 }
+
+// Aliases cho ActionDispatcher
+export { userListAction as indexAction, userListAction as listAction };
+export default userListAction;

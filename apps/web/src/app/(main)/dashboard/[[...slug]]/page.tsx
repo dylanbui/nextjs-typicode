@@ -1,4 +1,4 @@
-import * as dashboardActions from '../_feature';
+import * as dashboardActions from '@/app/(main)/dashboard/_feature';
 import { dispatchAction } from '@repo/shared';
 
 interface PageProps {
